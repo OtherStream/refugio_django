@@ -13,5 +13,4 @@ urlpatterns = [
     path('servicios/', include('servicios.urls')),
     path('avisos/', include('avisos.urls')),
     path('', include('core.urls')),
-   # path('dashboard/', include('dashboard.urls')),
 ]
