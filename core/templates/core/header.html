@@ -9,17 +9,17 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <!-- OPCIONES SIN INICIO DE SESION -->
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">Inicio</a>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Adoptar.php">Adoptar</a>
+                    <a class="nav-link" href="">Adoptar</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="adoptados.php">Adoptados</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Productos.php">Productos</a>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'lista_adoptados' %}">Adoptados</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'productos' %}">Productos</a>
                 </li>
 
                 <!-- OPCIONES CON INICIO DE SESION: USUARIO-->

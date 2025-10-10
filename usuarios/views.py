@@ -14,7 +14,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('/')  # redirige a la página principal
+            return redirect('/') 
         else:
             return redirect('/login?error=invalid')
 

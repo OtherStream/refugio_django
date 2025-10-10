@@ -1,5 +1,6 @@
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    # placeholder de rutas; puede estar vacío por ahora
+    path('', views.lista_productos, name='productos'),
 ]

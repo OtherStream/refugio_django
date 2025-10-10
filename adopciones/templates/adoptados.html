@@ -1,0 +1,22 @@
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Animales Adoptados</h2>
+    <div class="row">
+        {% for animal in animales %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                {% if animal.imagen %}
+                <img src="{{ static/img.imagen.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ animal.nombre }}</h5>
+                    <p><strong>Raza:</strong> {{ animal.raza }}</p>
+                    <p><strong>Edad:</strong> {{ animal.edad }} años</p>
+                    <p class="text-success"><strong>¡Felicidades!</strong> Este animal ya fue adoptado 🏠</p>
+                </div>
+            </div>
+        </div>
+        <p class="text-center">No hay animales adoptados por el momento.</p>
+    </div>
+</div>
+{% endblock %}
