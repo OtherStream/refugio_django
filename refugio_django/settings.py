@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',  # importante
+    'django.contrib.staticfiles',  
     'core',
     'usuarios',
     'animales',
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'productos',
     'servicios',
     'avisos',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,8 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 WSGI_APPLICATION = 'refugio_django.wsgi.application'
 
