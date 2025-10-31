@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib import messages
 from .forms import RegistroUsuarioForm
 from django.contrib.auth import login
+from django.http import JsonResponse
+from .models import Usuario
 
 def login_view(request):
     if request.method == 'POST':
@@ -35,3 +37,19 @@ def vista_registro(request):
         form = RegistroUsuarioForm()
         
     return render(request, 'usuarios/registro.html', {'form': form})
+
+def check_username(request):
+    username = request.GET.get('username', None)
+    
+    response_data = {
+        'is_taken': False
+    }
+
+    if username:
+        try:
+            if Usuario.objects.filter(username__iexact=username).exists():
+                response_data['is_taken'] = True
+        except Usuario.DoesNotExist:
+            pass 
+            
+    return JsonResponse(response_data)
