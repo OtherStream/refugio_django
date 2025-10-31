@@ -9,7 +9,6 @@ class Usuario(AbstractUser):
         ('otro', 'Otro'),
     ]
 
-    # --- Tus campos adicionales ---
     telefono = models.CharField(max_length=10, blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     edad = models.IntegerField(blank=True, null=True)
