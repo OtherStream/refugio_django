@@ -1,15 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class usuario(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=50)
-    telefono = models.IntegerField()
-    direccion = models.CharField(max_length=100)
-    edad = models.IntegerField()
-    sexo   = models.CharField(max_length=10, choices=[('Masculino', 'Masculino'), ('Femenino', 'Femenino'),('Otros','Otros')])
-    usuario = models.CharField(max_length=100)
-    contrasenia = models.CharField(max_length=100)
-    tipo_usuario = models.CharField(max_length=20, default='usuario')
+class Usuario(AbstractUser):
+
+    SEXO_CHOICES = [
+        ('masculino', 'Masculino'),
+        ('femenino', 'Femenino'),
+        ('otro', 'Otro'),
+    ]
+
+    # --- Tus campos adicionales ---
+    telefono = models.CharField(max_length=10, blank=True, null=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    edad = models.IntegerField(blank=True, null=True)
+    sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, blank=True, null=True)
 
     def __str__(self):
-        return self.nombre
+        return self.username
