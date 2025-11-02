@@ -1,0 +1,165 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+/* Navbar */
+.navbar-custom {
+    background-color: #004aad; 
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: white;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover{
+    color: #ffdd00;
+}
+.navbar a.active {
+    color: yellow;
+    font-weight: bold;
+    pointer-events: none; 
+    cursor: default; 
+}
+
+.container-fluid{
+    gap: 10px;
+
+}
+.container-fluid h3{
+    color: white;
+    font-weight: bold
+
+}
+.container-fluid img{
+    height: 40px; 
+    width: auto;
+    object-fit: contain;
+}
+
+/*table*/
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+}
+
+.table th, .table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+
+.table th:nth-child(1), .table td:nth-child(1) { /* Num. Solicitud  */
+    width: 10%;
+}
+.table th:nth-child(2), .table td:nth-child(2) { /* Usuario */
+    width: 20%;
+}
+.table th:nth-child(3), .table td:nth-child(3) { /* Animal */
+    width: 25%;
+}
+.table th:nth-child(4), .table td:nth-child(4) { /* Aceptado */
+    width: 15%;
+}
+.table th:nth-child(5), .table td:nth-child(5) { /* Acciones */
+    width: 30%;
+}
+
+/* Button styling */
+.accept-btn, .reject-btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    border-radius: 4px;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+td button {
+    max-width: 100px;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-body {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .table th, .table td {
+        font-size: 14px;
+        padding: 8px 4px;
+    }
+
+    .accept-btn, .reject-btn {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+
+
+/* Footer */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 40px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    font-size: 16px;
+}
