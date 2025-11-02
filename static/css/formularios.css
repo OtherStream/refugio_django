@@ -1,0 +1,225 @@
+/* Barra de navegacion */
+.navbar-custom {
+    background-color: #004aad;
+    padding: 10px 20px;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white !important; 
+    font-weight: 500;
+    gap: 15px;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffdd00 !important;
+}
+
+.navbar-custom a.active {
+    color: yellow !important;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #004aad; 
+    border: none;
+}
+
+.navbar-custom .dropdown-item {
+    color: white !important;
+    font-weight: 500;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #005fd3; /* Slightly lighter blue on hover */
+    color: #ffdd00 !important;
+}
+
+.container-fluid {
+    gap: 10px;
+}
+
+.container-fluid h3 {
+    color: white;
+    font-weight: bold;
+}
+
+.container-fluid img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+#adoptar {
+    border: 1px solid black;
+    margin: 20px 10px 10px 10px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*Formularios*/
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+form {
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    margin: 48px auto;
+    max-width: 600px;
+
+}
+
+form h2 {
+    margin-bottom: 16px;
+    font-size: 24px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #fdfdfd;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    margin-top: 24px;
+    margin-bottom: 0;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #27ae60;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+textarea,
+input,
+select {
+    margin-bottom: 16px;
+}
+
+
+button:hover {
+    background-color: #219150;
+}
+
+@media (max-width: 600px) {
+    form {
+        padding: 16px;
+    }
+}
+
+/* Footer */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    font-size: 16px;
+}
+
+[class^="col-"] {
+    padding: 8px;
+}
+
+.col-1 {
+    width: calc(100% / 12);
+}
+
+.col-2 {
+    width: calc(100% / 12 * 2);
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-4 {
+    width: calc(100% / 12 * 4);
+}
+
+.col-5 {
+    width: calc(100% / 12 * 5);
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-7 {
+    width: calc(100% / 12 * 7);
+}
+
+.col-8 {
+    width: calc(100% / 12 * 8);
+}
+
+.col-9 {
+    width: 75%;
+}
+
+.col-10 {
+    width: calc(100% / 12 * 10);
+}
+
+.col-11 {
+    width: calc(100% / 12 * 11);
+}
+
+.col-12 {
+    width: 100%;
+}

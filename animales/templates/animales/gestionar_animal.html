@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if animal %}Editar Animal{% else %}Agregar Animal{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    {% include "core/header.html" %}
+    
+    <form class="formulario" method="POST" enctype="multipart/form-data">
+        
+        <h2>{% if animal %}Editar Animal en Adopción{% else %}Agregar Animal en Adopción{% endif %}</h2>
+        
+        {% csrf_token %} {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre:</label>
+            {{ form.nombre }}
+            <span class="text-danger">{{ form.nombre.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción:</label>
+            {{ form.descripcion }}
+            <span class="text-danger">{{ form.descripcion.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.imagen.id_for_label }}" class="form-label">Imagen:</label>
+            {{ form.imagen }}
+            <span class="text-danger">{{ form.imagen.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.tipo.id_for_label }}" class="form-label">Tipo:</label>
+            {{ form.tipo }}
+            <span class="text-danger">{{ form.tipo.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.tamano.id_for_label }}" class="form-label">Tamaño:</label>
+            {{ form.tamano }}
+            <span class="text-danger">{{ form.tamano.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.color.id_for_label }}" class="form-label">Color:</label>
+            {{ form.color }}
+            <span class="text-danger">{{ form.color.errors }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.genero.id_for_label }}" class="form-label">Género:</label>
+            {{ form.genero }}
+            <span class="text-danger">{{ form.genero.errors }}</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if animal %}Editar Animal{% else %}Guardar Animal{% endif %}
+        </button>
+    </form>
+    
+    {% include "core/footer.html" %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
