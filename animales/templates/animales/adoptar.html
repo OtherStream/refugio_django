@@ -1,41 +1,45 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Animales en Adopción</title>
-    <link rel="stylesheet" href="{% static 'styles/adop-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adop-style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    {% include 'componentes/header.html' %}
-
+    {% include 'core/header.html' %}
+    
     <div class="container mt-4">
         <div class="row">
-            {% if not animales %}
+            {% if not page_obj %}
                 <div class="col-12 text-center">
                     <p>No hay animales disponibles para adopción en este momento.</p>
                 </div>
             {% else %}
-                {% for animal in animales %}
+                {% for animal in page_obj %}
                     <div class="col-md-3 mb-4">
                         <div class="card h-100" style="overflow: hidden;">
-                            <img src="{{ animal.imagen.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+                            
+                            {% if animal.imagen %}
+                                <img src="{{ animal.imagen.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+                            {% else %}
+                                <img src="{% static 'img/placeholder.jpg' %}" class="card-img-top" alt="Sin imagen">
+                            {% endif %}
+                            
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ animal.nombre }}</h5>
-                                <p class="card-text">{{ animal.descripcion }}</p>
-
-                                {% if animal.estatus == 'inactivo' %}
-                                    <p class="card-text">Ya hay personas interesadas</p>
+                                <p class="card-text">{{ animal.descripcion|truncatewords:20 }}</p> {% if animal.estatus == 'inactivo' %}
+                                    <p class="card-text text-danger fw-bold">Ya hay personas interesadas</p>
                                 {% endif %}
-
-                                <a href="#" class="btn btn-primary mt-auto adoptar-btn"
-                                   data-bs-toggle="modal" data-bs-target="#animalModal"
-                                   data-id="{{ animal.id }}" data-tipo="{{ animal.tipo }}"
-                                   data-nombre="{{ animal.nombre }}">
-                                   Adoptar
-                                </a>
+                                
+                                <a href="#" class="btn btn-primary mt-auto adoptar-btn" data-bs-toggle="modal"
+                                    data-bs-target="#animalModal"
+                                    data-id="{{ animal.id }}"
+                                    data-tipo="{{ animal.tipo }}"
+                                    data-nombre="{{ animal.nombre }}">Adoptar</a>
                             </div>
                         </div>
                     </div>
@@ -43,36 +47,50 @@
             {% endif %}
         </div>
 
-        {% if total_paginas > 1 %}
+        {% if page_obj.has_other_pages %}
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    {% if animales.has_previous %}
+                    
+                    {% if page_obj.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?pagina={{ animales.previous_page_number }}">«</a>
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                                <span aria-hidden="true">«</span>
+                            </a>
                         </li>
                     {% else %}
-                        <li class="page-item disabled"><span class="page-link">«</span></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Anterior"><span aria-hidden="true">«</span></a>
+                        </li>
                     {% endif %}
-
-                    {% for num in animales.paginator.page_range %}
-                        <li class="page-item {% if animales.number == num %}active{% endif %}">
-                            <a class="page-link" href="?pagina={{ num }}">{{ num }}</a>
-                        </li>
+                    
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ i }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
-
-                    {% if animales.has_next %}
+                    
+                    {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?pagina={{ animales.next_page_number }}">»</a>
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                                <span aria-hidden="true">»</span>
+                            </a>
                         </li>
                     {% else %}
-                        <li class="page-item disabled"><span class="page-link">»</span></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Siguiente"><span aria-hidden="true">»</span></a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         {% endif %}
-    </div>
+        </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="animalModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -94,9 +112,10 @@
             </div>
         </div>
     </div>
-
-    {% include 'componentes/footer.html' %}
+    {% include 'core/footer.html' %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'scripts/solicitud.js' %}"></script>
+    
+    <script src="{% static 'js/solicitud.js' %}"></script>
 </body>
+
 </html>
