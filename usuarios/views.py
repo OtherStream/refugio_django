@@ -1,19 +1,24 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib import messages
 from .forms import RegistroUsuarioForm
-from django.contrib.auth import login
 from django.http import JsonResponse
 from .models import Usuario
+from django.urls import reverse # 1. IMPORTACIÓN AÑADIDA
 
 def login_view(request):
     if request.method == 'POST':
         usuario = request.POST.get('usuario')
         password = request.POST.get('password')
 
+        # --- INICIO DE LA CORRECCIÓN ---
+        
+        # 2. Obtenemos la URL correcta a partir de su nombre
+        login_url = reverse('login') # Esto se convertirá en '/auth/login/'
+
         if not usuario or not password:
-            return redirect('/login?error=empty')
+            # 3. Redirigimos a la URL correcta
+            return redirect(f'{login_url}?error=empty')
 
         user = authenticate(request, username=usuario, password=password)
 
@@ -21,7 +26,10 @@ def login_view(request):
             login(request, user)
             return redirect('/') 
         else:
-            return redirect('/login?error=invalid')
+            # 4. Redirigimos a la URL correcta
+            return redirect(f'{login_url}?error=invalid')
+        
+        # --- FIN DE LA CORRECCIÓN ---
 
     return render(request, 'usuarios/login.html')
 
