@@ -1,14 +1,16 @@
+# adopciones/models.py
+
 from django.db import models
 from django.conf import settings
+# Importamos el modelo Animal de la app 'animales'. ¡Esta es la única que debe estar!
 from animales.models import Animal 
 
-class Animal(models.Model):
-    nombre = models.CharField(max_length=100)
-    edad = models.IntegerField()
-    raza = models.CharField(max_length=50)
-    # otros campos que tengas en tu tabla
+# 
+# --- BORRAMOS LA CLASE 'Animal' QUE ESTABA AQUÍ ---
+# 
 
 class Adopcion(models.Model):
+    # Esta ForeignKey ahora usa el modelo Animal importado de 'animales'
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     nombre_adoptante = models.CharField(max_length=100)
     email = models.EmailField()
@@ -22,21 +24,19 @@ class Solicitud(models.Model):
         ('R', 'Rechazado'),
     ]
 
-    # Relación con el usuario que hace la solicitud
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
         related_name="solicitudes"
     )
     
-    # Relación con el animal que es solicitado
+    # Esta ForeignKey ahora usa el modelo Animal importado de 'animales'
     animal = models.ForeignKey(
         Animal, 
         on_delete=models.CASCADE, 
         related_name="solicitudes"
     )
     
-    # Estado de la solicitud
     aceptado = models.CharField(
         max_length=1, 
         choices=ESTADO_CHOICES, 
