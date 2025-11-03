@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
-    
     <link rel="stylesheet" href="{% static 'css/product-style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -28,12 +27,38 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    {{ user.is_staff|json_script:"user_is_admin" }}
+
     <script>
+        // PASO 2: Leemos los datos de la etiqueta que Django creó
+        const USER_IS_ADMIN = JSON.parse(document.getElementById('user_is_admin').textContent);
+        
+        // El resto de tus variables globales
         const PLACEHOLDER_IMG_URL = "{% static 'img/placeholder.jpg' %}";
+        
+        // Función para obtener el token CSRF (sin cambios)
+        function getCSRFToken() {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, 10) === ('csrftoken' + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(10));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCSRFToken();
     </script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // ... (todo tu código de 'cargarCategorias', 'cargarProductos', etc., va aquí) ...
+            // Este código ahora podrá leer la variable 'USER_IS_ADMIN' sin problemas.
+
             const categoriasContainer = document.getElementById('categorias-container');
             const productosContainer = document.getElementById('productos-container');
 
@@ -55,59 +80,120 @@
                 }
             }
 
-            // --- PETICIÓN 2: Cargar Productos (depende de la categoría) ---
+            // --- PETICIÓN 2: Cargar Productos ---
             async function cargarProductos(categoriaId) {
                 let url = '/productos/api-crud/';
-                
                 if (categoriaId && categoriaId !== 'all') {
-                    // Esta URL de filtro la habilitaremos en el siguiente paso
                     url = `/productos/api-crud/?categoria=${categoriaId}`;
                 }
 
                 try {
-                    const response = await fetch(url);
+                    const response = await fetch(url, { cache: 'no-store' });
                     const productos = await response.json();
                     
                     productosContainer.innerHTML = ''; 
                     
                     productos.forEach(prod => {
-                        // ---
-                        // PASO 2: CORRECCIÓN
-                        // Usamos la variable global si prod.imagen es null
-                        // ---
                         const imgSrc = prod.imagen ? prod.imagen : PLACEHOLDER_IMG_URL;
+                        let productoHTML = '';
 
-                        const productoHTML = `
-                        <div class="col-md-6 mb-3">
-                            <div class="card">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="${imgSrc}" class="img-fluid rounded-start" alt="${prod.nombre}">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${prod.nombre}</h5>
-                                            <p class="card-text">${prod.descripcion || ''}</p>
-                                            <p class="card-text"><small class="text-body-secondary">Precio $${prod.precio}</small></p>
+                        let adminCheckbox = '';
+                        if (USER_IS_ADMIN) {
+                            adminCheckbox = `
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input admin-toggle-disponible" type="checkbox" role="switch" id="toggle-${prod.id}" data-id="${prod.id}" ${prod.disponible ? 'checked' : ''}>
+                                <label class="form-check-label" for="toggle-${prod.id}">Disponible</label>
+                            </div>
+                            `;
+                        }
+
+                        if (prod.disponible) {
+                            productoHTML = `
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="${imgSrc}" class="img-fluid rounded-start" alt="${prod.nombre}">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${prod.nombre}</h5>
+                                                <p class="card-text">${prod.descripcion || ''}</p>
+                                                <p class="card-text"><small class="text-body-secondary">Precio $${prod.precio}</small></p>
+                                                ${adminCheckbox}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        `;
+                            `;
+                        } else {
+                            productoHTML = `
+                            <div class="col-md-6 mb-3">
+                                <div class="card text-bg-light" style="opacity: 0.6;">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="${imgSrc}" class="img-fluid rounded-start" alt="${prod.nombre}">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${prod.nombre}</h5>
+                                                <p class="card-text">${prod.descripcion || ''}</p>
+                                                <p class="card-text text-danger fw-bold">PRODUCTO AGOTADO</p>
+                                                ${adminCheckbox}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        }
+                        
                         productosContainer.innerHTML += productoHTML;
                     });
-
                 } catch (error) {
                     console.error("Error cargando productos:", error);
                 }
             }
 
-            // --- Lógica de Eventos ---
+            // --- Lógica de Eventos (Categorías) ---
             categoriasContainer.addEventListener('click', function(e) {
                 if (e.target.tagName === 'BUTTON') {
                     const categoriaId = e.target.dataset.id;
                     cargarProductos(categoriaId);
+                }
+            });
+
+            // --- Event Listener para los Checkboxes ---
+            productosContainer.addEventListener('change', async function(e) {
+                if (e.target.classList.contains('admin-toggle-disponible')) {
+                    const checkbox = e.target;
+                    const productoId = checkbox.dataset.id;
+                    
+                    try {
+                        const response = await fetch('/productos/toggle-disponible/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrftoken
+                            },
+                            body: JSON.stringify({ id: productoId })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            const botonActivo = document.querySelector('#categorias-container .btn-primary');
+                            const categoriaIdActiva = botonActivo ? botonActivo.dataset.id : 'all';
+                            cargarProductos(categoriaIdActiva);
+                        } else {
+                            console.error("Error al actualizar:", data.message);
+                            checkbox.checked = !checkbox.checked;
+                        }
+                    } catch (error) {
+                        console.error("Error en fetch toggle:", error);
+                        checkbox.checked = !checkbox.checked;
+                    }
                 }
             });
 

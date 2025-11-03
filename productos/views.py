@@ -6,6 +6,8 @@ from django.core.paginator import Paginator
 from rest_framework import viewsets
 from .serializers import ProductoSerializer, CategoriaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+import json
+from django.http import JsonResponse
 
 # --- NUEVAS IMPORTACIONES ---
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -58,3 +60,26 @@ def gestionar_producto_view(request, pk=None):
         'form': form,
         'producto': producto
     })
+    
+@login_required
+@user_passes_test(es_admin, login_url='login') # Solo los admins pueden usarla
+def toggle_disponible_view(request):
+
+    if request.method == 'POST':
+        try:
+            # Obtenemos el ID del producto desde el JSON enviado
+            data = json.loads(request.body)
+            producto_id = int(data.get('id'))
+            
+            producto = get_object_or_404(Producto, id=producto_id)
+            
+            # Cambia el booleano (si era True, lo hace False, y viceversa)
+            producto.disponible = not producto.disponible 
+            producto.save()
+            
+            # Devuelve el nuevo estado
+            return JsonResponse({'success': True, 'disponible': producto.disponible})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=400)
+    
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
