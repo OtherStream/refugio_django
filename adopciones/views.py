@@ -1,27 +1,15 @@
-# adopciones/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.db import transaction
 import json
-
-# --- IMPORTACIONES CORREGIDAS ---
-# Importamos Solicitud desde ESTA app (.models)
-from .models import Solicitud  
-# Importamos Animal desde la app 'animales'
+from .models import Solicitud 
 from animales.models import Animal 
-# --------------------------------
-
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from .serializers import SolicitudSerializer
 
 def lista_adoptados_view(request):
-    """
-    Esta vista simplemente muestra la página estática de 
-    adopciones exitosas (el carrusel).
-    """
     return render(request, 'adopciones/adoptados.html')
 
 @login_required 
@@ -32,7 +20,7 @@ def lista_solicitudes_view(request):
         try:
             data = json.loads(request.body)
             solicitud_id = int(data.get('id_solicitud'))
-            nuevo_estado = data.get('aceptado') # 'A' o 'R'
+            nuevo_estado = data.get('aceptado') 
 
             with transaction.atomic():
                 solicitud = Solicitud.objects.get(id=solicitud_id)
@@ -71,7 +59,6 @@ def procesar_solicitud_view(request):
             data = json.loads(request.body)
             animal_id = int(data.get('animal_id'))
 
-            # Ahora 'Animal' SÍ se refiere al de 'animales.models'
             animal = get_object_or_404(Animal, id=animal_id)
             usuario = request.user
 
@@ -79,10 +66,9 @@ def procesar_solicitud_view(request):
                 return JsonResponse({'success': False, 'message': 'Este animal ya no está disponible.'})
 
             with transaction.atomic():
-                # 'Solicitud' espera un 'Animal' de 'animales.models'
                 Solicitud.objects.create(
                     usuario=usuario,
-                    animal=animal, # <-- Ahora esto funcionará
+                    animal=animal, 
                     aceptado='P' 
                 )
                 
@@ -92,18 +78,10 @@ def procesar_solicitud_view(request):
             return JsonResponse({'success': True, 'message': '¡Solicitud registrada con éxito!'})
 
         except Exception as e:
-            # Mandamos el error real al frontend para depurar
             return JsonResponse({'success': False, 'message': f'Error: {str(e)}'}, status=400)
     
     return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
 
 class SolicitudViewSet(viewsets.ModelViewSet):
-    """
-    API REST para el modelo Solicitud (un modelo relacionado).
-    - GET: Lista todas las solicitudes.
-    - POST: Crea una nueva solicitud.
-    - PUT/PATCH: Actualiza una solicitud.
-    - DELETE: Borra una solicitud.
-    """
     queryset = Solicitud.objects.all()
     serializer_class = SolicitudSerializer

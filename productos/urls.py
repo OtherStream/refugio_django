@@ -12,7 +12,6 @@ urlpatterns = [
     # Lista pública de productos
     path('', views.lista_productos, name='productos'),
     
-    # --- AGREGA ESTAS DOS LÍNEAS PARA EL ADMIN ---
     path('crear/', views.gestionar_producto_view, name='producto_crear'),
     path('editar/<int:pk>/', views.gestionar_producto_view, name='producto_editar'),
     

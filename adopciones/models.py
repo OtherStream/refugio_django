@@ -1,13 +1,6 @@
-# adopciones/models.py
-
 from django.db import models
 from django.conf import settings
-# Importamos el modelo Animal de la app 'animales'. ¡Esta es la única que debe estar!
 from animales.models import Animal 
-
-# 
-# --- BORRAMOS LA CLASE 'Animal' QUE ESTABA AQUÍ ---
-# 
 
 class Adopcion(models.Model):
     # Esta ForeignKey ahora usa el modelo Animal importado de 'animales'
