@@ -13,6 +13,10 @@ from .models import Solicitud
 from animales.models import Animal 
 # --------------------------------
 
+from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
+from .serializers import SolicitudSerializer
+
 def lista_adoptados_view(request):
     """
     Esta vista simplemente muestra la página estática de 
@@ -92,3 +96,14 @@ def procesar_solicitud_view(request):
             return JsonResponse({'success': False, 'message': f'Error: {str(e)}'}, status=400)
     
     return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
+
+class SolicitudViewSet(viewsets.ModelViewSet):
+    """
+    API REST para el modelo Solicitud (un modelo relacionado).
+    - GET: Lista todas las solicitudes.
+    - POST: Crea una nueva solicitud.
+    - PUT/PATCH: Actualiza una solicitud.
+    - DELETE: Borra una solicitud.
+    """
+    queryset = Solicitud.objects.all()
+    serializer_class = SolicitudSerializer

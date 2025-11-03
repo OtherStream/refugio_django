@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
-
+    
     <link rel="stylesheet" href="{% static 'css/product-style.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
@@ -17,49 +16,106 @@
 
     <div class="container mt-4">
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{% static 'img/shampo.jpg' %}" class="img-fluid rounded-start" alt="Shampoo">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Shampoo</h5>
-                                <p class="card-text">Limpia, elimina malos olores del pelo de tu mascota. Da volumen,
-                                    suavidad y brillo natural. Agradable aroma.</p>
-                                <p class="card-text"><small class="text-body-secondary">Precio $35</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <h3>Filtrar por Categoría:</h3>
+        <div id="categorias-container" class="mb-3">
+            <button class="btn btn-primary" data-id="all">Todos</button>
             </div>
 
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{% static 'img/alimento.png' %}" class="img-fluid rounded-start" alt="Alimento">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Alimento de calidad</h5>
-                                <p class="card-text">Nutrición especializada que maximiza la calidad de vida de tu perro
-                                    adulto de más de 7 años, rico en antioxidantes que ayuda a retrasar los signos de la edad.</p>
-                                <p class="card-text"><small class="text-body-secondary">Precio $1000</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="row" id="productos-container">
             </div>
-        </div>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const PLACEHOLDER_IMG_URL = "{% static 'img/placeholder.jpg' %}";
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoriasContainer = document.getElementById('categorias-container');
+            const productosContainer = document.getElementById('productos-container');
+
+            // --- PETICIÓN 1: Cargar Categorías ---
+            async function cargarCategorias() {
+                try {
+                    const response = await fetch('/productos/api-categorias/');
+                    const categorias = await response.json();
+                    
+                    categorias.forEach(cat => {
+                        const button = document.createElement('button');
+                        button.className = 'btn btn-outline-secondary';
+                        button.textContent = cat.nombre;
+                        button.dataset.id = cat.id;
+                        categoriasContainer.appendChild(button);
+                    });
+                } catch (error) {
+                    console.error("Error cargando categorías:", error);
+                }
+            }
+
+            // --- PETICIÓN 2: Cargar Productos (depende de la categoría) ---
+            async function cargarProductos(categoriaId) {
+                let url = '/productos/api-crud/';
+                
+                if (categoriaId && categoriaId !== 'all') {
+                    // Esta URL de filtro la habilitaremos en el siguiente paso
+                    url = `/productos/api-crud/?categoria=${categoriaId}`;
+                }
+
+                try {
+                    const response = await fetch(url);
+                    const productos = await response.json();
+                    
+                    productosContainer.innerHTML = ''; 
+                    
+                    productos.forEach(prod => {
+                        // ---
+                        // PASO 2: CORRECCIÓN
+                        // Usamos la variable global si prod.imagen es null
+                        // ---
+                        const imgSrc = prod.imagen ? prod.imagen : PLACEHOLDER_IMG_URL;
+
+                        const productoHTML = `
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="${imgSrc}" class="img-fluid rounded-start" alt="${prod.nombre}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${prod.nombre}</h5>
+                                            <p class="card-text">${prod.descripcion || ''}</p>
+                                            <p class="card-text"><small class="text-body-secondary">Precio $${prod.precio}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                        productosContainer.innerHTML += productoHTML;
+                    });
+
+                } catch (error) {
+                    console.error("Error cargando productos:", error);
+                }
+            }
+
+            // --- Lógica de Eventos ---
+            categoriasContainer.addEventListener('click', function(e) {
+                if (e.target.tagName === 'BUTTON') {
+                    const categoriaId = e.target.dataset.id;
+                    cargarProductos(categoriaId);
+                }
+            });
+
+            // --- Carga Inicial ---
+            cargarCategorias();
+            cargarProductos('all');
+        });
+    </script>
 
     {% include 'core/footer.html' %}
 </body>
