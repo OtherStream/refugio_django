@@ -14,8 +14,7 @@ def lista_adoptados_view(request):
 
 @login_required 
 def lista_solicitudes_view(request):
-    
-    # --- LÓGICA DE API (POST) ---
+    #verifica si es post
     if request.method == 'POST' and request.user.is_staff:
         try:
             data = json.loads(request.body)
@@ -25,7 +24,7 @@ def lista_solicitudes_view(request):
             with transaction.atomic():
                 solicitud = Solicitud.objects.get(id=solicitud_id)
                 solicitud.aceptado = nuevo_estado
-                solicitud.save()
+                solicitud.save()#actualiza el onjeto
 
                 animal = solicitud.animal
                 if nuevo_estado == 'A':
@@ -38,7 +37,6 @@ def lista_solicitudes_view(request):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=400)
 
-    # --- LÓGICA DE VISTA (GET) ---
     solicitudes = None
     if request.user.is_staff:
         solicitudes = Solicitud.objects.all().select_related('usuario', 'animal').order_by('-fecha_solicitud')
@@ -53,7 +51,7 @@ def lista_solicitudes_view(request):
 
 @login_required 
 def procesar_solicitud_view(request):
-    
+    #verifica si es post
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -70,7 +68,7 @@ def procesar_solicitud_view(request):
                     usuario=usuario,
                     animal=animal, 
                     aceptado='P' 
-                )
+                )#se crea el objeto
                 
                 animal.estatus = 'inactivo'
                 animal.save()

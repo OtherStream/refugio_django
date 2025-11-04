@@ -12,11 +12,10 @@ urlpatterns = [
     # Lista pública de productos
     path('', views.lista_productos, name='productos'),
     
+    # Formularios de Admin
     path('crear/', views.gestionar_producto_view, name='producto_crear'),
     path('editar/<int:pk>/', views.gestionar_producto_view, name='producto_editar'),
     
-    path('toggle-disponible/', views.toggle_disponible_view, name='producto_toggle_disponible'),
-    
-    # URLs de la API
+    # URLs de la API (DRF)
     path('', include(router.urls)),
 ]

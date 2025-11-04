@@ -42,6 +42,7 @@ def vista_registro(request):
     return render(request, 'usuarios/registro.html', {'form': form})
 
 def check_username(request):
+    #lee datos con get
     username = request.GET.get('username', None)
     
     response_data = {
