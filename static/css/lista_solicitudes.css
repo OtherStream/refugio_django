@@ -1,9 +1,8 @@
-/* General */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
 }
-/* Navbar */
+
 .navbar-custom {
     background-color: #004aad; 
 }
@@ -25,12 +24,10 @@ body {
 
 .container-fluid{
     gap: 10px;
-
 }
 .container-fluid h3{
     color: white;
     font-weight: bold
-
 }
 .container-fluid img{
     height: 40px; 
@@ -38,7 +35,6 @@ body {
     object-fit: contain;
 }
 
-/*table*/
 .container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -64,29 +60,33 @@ body {
     white-space: nowrap; 
 }
 
-.table th:nth-child(1), .table td:nth-child(1) { /* Num. Solicitud  */
+.table th:nth-child(1), .table td:nth-child(1) {
     width: 10%;
 }
-.table th:nth-child(2), .table td:nth-child(2) { /* Usuario */
-    width: 20%;
-}
-.table th:nth-child(3), .table td:nth-child(3) { /* Animal */
-    width: 25%;
-}
-.table th:nth-child(4), .table td:nth-child(4) { /* Aceptado */
+.table th:nth-child(2), .table td:nth-child(2) {
     width: 15%;
 }
-.table th:nth-child(5), .table td:nth-child(5) { /* Acciones */
-    width: 30%;
+.table th:nth-child(3), .table td:nth-child(3) {
+    width: 20%;
+}
+.table th:nth-child(4), .table td:nth-child(4) {
+    width: 15%;
+}
+.table th:nth-child(5), .table td:nth-child(5) {
+    width: 20%;
+}
+.table th:nth-child(6), .table td:nth-child(6) {
+    width: 20%;
 }
 
-/* Button styling */
 .accept-btn, .reject-btn {
     width: 100%;
+    max-width: 100px;
     padding: 8px;
     font-size: 14px;
     white-space: nowrap;
     border-radius: 4px;
+    margin-bottom: 5px;
 }
 
 .accept-btn {
@@ -99,12 +99,6 @@ body {
     background-color: #dc3545;
     border-color: #dc3545;
     color: white;
-}
-
-td button {
-    max-width: 100px;
-    margin: 0 auto;
-    display: inline-block;
 }
 
 .modal-content {
@@ -127,8 +121,6 @@ td button {
     }
 }
 
-
-/* Footer */
 footer {
     background-color: #004aad;
     color: white;

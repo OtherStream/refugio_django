@@ -92,7 +92,7 @@
         const botonEliminar = document.getElementById('boton-eliminar');
         const generalErrorsDiv = document.getElementById('form-general-errors');
         
-        // --- Función para Cargar Categorías (GET a API) ---
+        // --- Cargar Categorías get api ---
         async function cargarCategorias(selectedId = null) {
             const select = document.getElementById('id_categoria');
             try {
@@ -115,7 +115,7 @@
             }
         }
 
-        // --- Función para Cargar Datos del Producto (GET a API) ---
+        // --- Cargar Datos del Producto con get api---
         async function cargarDatosProducto() {
             if (!IS_EDITING) {
                 await cargarCategorias(); // Solo cargar categorías para un formulario nuevo
@@ -162,7 +162,7 @@
             }
         }
 
-        // --- Event Listener para GUARDAR (POST / PATCH con API) ---
+        // ---  GUARDAR (POST / PATCH con API) ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); 
             
@@ -189,7 +189,7 @@
                     body: formData
                 });
 
-                const data = await response.json();//Recibes el objeto completo (actualizado)
+                const data = await response.json();//Recibes el objeto completo
 
                 if (response.ok) {
                     alert('¡Producto guardado con éxito!');
@@ -207,7 +207,7 @@
             }
         });
 
-        // --- ELIMINAR (DELETE a API) ---
+        // --- ELIMINAR  ---
         if (IS_EDITING && botonEliminar) {
             botonEliminar.addEventListener('click', async function() {
                 if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {

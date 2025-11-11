@@ -28,15 +28,10 @@ def es_admin(user):
 @login_required
 @user_passes_test(es_admin, login_url='login')
 def gestionar_producto_view(request, pk=None):
-    """
-    Esta vista ahora solo carga el HTML.
-    JavaScript se encargará de hacer GET, POST, PATCH y DELETE a la API.
-    """
     producto = None
     if pk:
         producto = get_object_or_404(Producto, pk=pk)
         
     return render(request, 'productos/gestionar_producto.html', {
-        # Solo pasamos el 'producto' para que JS sepa si es 'editar' y tenga el ID
         'producto': producto 
     })

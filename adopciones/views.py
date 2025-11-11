@@ -14,29 +14,42 @@ def lista_adoptados_view(request):
 
 @login_required 
 def lista_solicitudes_view(request):
-    #verifica si es post
+    
     if request.method == 'POST' and request.user.is_staff:
         try:
             data = json.loads(request.body)
             solicitud_id = int(data.get('id_solicitud'))
-            nuevo_estado = data.get('aceptado') 
+            nuevo_estado = data.get('aceptado') # 'A' o 'R'
 
             with transaction.atomic():
                 solicitud = Solicitud.objects.get(id=solicitud_id)
                 solicitud.aceptado = nuevo_estado
-                solicitud.save()#actualiza el onjeto
+                solicitud.save()
 
                 animal = solicitud.animal
+                
                 if nuevo_estado == 'A':
                     animal.estatus = 'adoptado'
+                    
+                    # --- INICIO DE LA MODIFICACIÓN ---
+                    # Rechaza automáticamente todas las OTRAS solicitudes
+                    # pendientes para ESTE MISMO animal.
+                    Solicitud.objects.filter(animal=animal, aceptado='P').update(aceptado='R')
+                    # --- FIN DE LA MODIFICACIÓN ---
+
                 elif nuevo_estado == 'R':
-                    animal.estatus = 'activo' 
+                    # Si la solicitud fue rechazada, nos aseguramos
+                    # de que el animal siga activo (si no ha sido adoptado ya).
+                    if animal.estatus != 'adoptado':
+                        animal.estatus = 'activo' 
+                
                 animal.save()
 
             return JsonResponse({'success': True, 'message': 'Estado actualizado correctamente'})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=400)
 
+    # --- LÓGICA DE VISTA (GET) (Sin cambios) ---
     solicitudes = None
     if request.user.is_staff:
         solicitudes = Solicitud.objects.all().select_related('usuario', 'animal').order_by('-fecha_solicitud')
@@ -51,27 +64,44 @@ def lista_solicitudes_view(request):
 
 @login_required 
 def procesar_solicitud_view(request):
-    #verifica si es post
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False, 
+            'message': 'Tienes que estar logeado para solicitar adoptar'
+        }, status=401)
+
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            animal_id = int(data.get('animal_id'))
+            animal_id = int(request.POST.get('animal_id'))
+            comprobante_file = request.FILES.get('comprobante_domicilio')
+            ine_file = request.FILES.get('ine')
+
+            if not comprobante_file or not ine_file:
+                 return JsonResponse({'success': False, 'message': 'Debes subir ambos archivos.'}, status=400)
 
             animal = get_object_or_404(Animal, id=animal_id)
             usuario = request.user
 
+            # Esta validación sigue siendo correcta
             if animal.estatus != 'activo':
                 return JsonResponse({'success': False, 'message': 'Este animal ya no está disponible.'})
 
             with transaction.atomic():
+                # Creamos la solicitud
                 Solicitud.objects.create(
                     usuario=usuario,
                     animal=animal, 
-                    aceptado='P' 
-                )#se crea el objeto
+                    aceptado='P',
+                    comprobante_domicilio=comprobante_file,
+                    ine=ine_file
+                )
                 
-                animal.estatus = 'inactivo'
-                animal.save()
+                # --- INICIO DE LA MODIFICACIÓN ---
+                # ¡YA NO CAMBIAMOS EL ESTADO DEL ANIMAL AQUÍ!
+                # animal.estatus = 'inactivo'  <-- BORRADO
+                # animal.save()               <-- BORRADO
+                # --- FIN DE LA MODIFICACIÓN ---
 
             return JsonResponse({'success': True, 'message': '¡Solicitud registrada con éxito!'})
 
