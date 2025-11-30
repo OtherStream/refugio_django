@@ -1,0 +1,76 @@
+{% load static %} 
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <img src="{% static 'img/logo.jpg' %}" alt="">
+        <h3>Refugio Animal Alfa A.C.</h3>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'adoptar' %}">Adoptar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lista_adoptados' %}">Adoptados</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'productos' %}">Productos</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_solicitudes' %}">Solicitudes</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Agregar
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'animal_crear' %}">En adopción</a></li>
+                                <!-- <li><a class="dropdown-item" href="#">Adoptados</a></li> -->
+                                <li><a class="dropdown-item" href="{% url 'producto_crear' %}">Productos</a></li>
+                                
+                                <li><a class="dropdown-item" href="{% url 'publicacion_list' %}">Publicaciones</a></li>
+                                
+                                <!-- <li><a class="dropdown-item" href="#">Lista adopción</a></li>
+                                <li><a class="dropdown-item" href="#">Lista usuarios</a></li> -->
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_solicitudes' %}">Mis solicitudes</a>
+                        </li>
+                    {% endif %}
+
+                {% endif %}
+            </ul>
+
+            <div class="ms-auto d-flex align-items-center gap-2">
+                {% if user.is_authenticated %}
+                    
+                    <span class="navbar-text">
+                        Hola, {{ user.first_name }}
+                    </span>
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                    </form>
+
+                {% else %}
+                    
+                    <a href="{% url 'login' %}" class="btn btn-light">Login</a>
+                    <a href="{% url 'registro' %}" class="btn btn-outline-light">Registrarse</a>
+                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

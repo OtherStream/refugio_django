@@ -1,0 +1,187 @@
+/* --- 1. ESTILOS GENERALES --- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f3f4f6; /* Fondo gris suave para resaltar el form */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* --- 2. BARRA DE NAVEGACIÓN (Tu diseño original) --- */
+.navbar-custom {
+    background-color: #004aad;
+    padding: 10px 20px;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white !important; 
+    font-weight: 500;
+    gap: 15px;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffdd00 !important;
+}
+
+.navbar-custom a.active {
+    color: yellow !important;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #004aad; 
+    border: none;
+}
+
+.navbar-custom .dropdown-item {
+    color: white !important;
+    font-weight: 500;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #005fd3;
+    color: #ffdd00 !important;
+}
+
+.container-fluid {
+    gap: 10px;
+}
+
+.container-fluid h3 {
+    color: white;
+    font-weight: bold;
+}
+
+.container-fluid img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* --- 3. ESTILOS DEL FORMULARIO (CORREGIDO) --- */
+/* Usamos la clase .formulario para aislar estilos y NO romper el header */
+
+.formulario {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin: 30px auto; /* Margen para separar del header/footer */
+    border: 1px solid #e1e1e1;
+    max-width: 800px; /* Ancho máximo para que no se estire demasiado */
+}
+
+.formulario h2 {
+    color: #004aad; /* Azul corporativo */
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.8rem;
+}
+
+/* Etiquetas */
+.formulario label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Inputs y Selects (Adaptados a Bootstrap pero con tu estilo) */
+.formulario .form-control, 
+.formulario .form-select {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    background-color: #fdfdfd;
+    font-size: 16px;
+}
+
+.formulario .form-control:focus, 
+.formulario .form-select:focus {
+    border-color: #004aad;
+    box-shadow: 0 0 0 0.25rem rgba(0, 74, 173, 0.25);
+}
+
+/* Textareas específicos */
+.formulario textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Botones dentro del formulario */
+.formulario .btn-primary {
+    background-color: #004aad; /* Usamos el azul para consistencia */
+    border-color: #004aad;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.formulario .btn-primary:hover {
+    background-color: #003380;
+    border-color: #003380;
+}
+
+.formulario .btn-danger {
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Mensajes de ayuda o error */
+.formulario .text-muted {
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* --- 4. FOOTER (Tu diseño original) --- */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    font-size: 16px;
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+    .formulario {
+        padding: 20px;
+        margin: 20px 15px; /* Margen lateral en móviles */
+    }
+}

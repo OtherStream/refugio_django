@@ -1,0 +1,158 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: #004aad; 
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: white;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover{
+    color: #ffdd00;
+}
+.navbar a.active {
+    color: yellow;
+    font-weight: bold;
+    pointer-events: none; 
+    cursor: default; 
+}
+
+.container-fluid{
+    gap: 10px;
+
+}
+.container-fluid h3{
+    color: white;
+    font-weight: bold
+
+}
+.container-fluid img{
+    height: 40px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.contenedor-formulario {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+/* Formulario */
+.formulario {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.formulario h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #004aad;
+    font-weight: bold;
+}
+
+.formulario label {
+    display: block;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.formulario input,
+.formulario select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.formulario input:focus,
+.formulario select:focus {
+    border-color: #004aad;
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.2);
+}
+
+.formulario button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario button:hover {
+    background-color: #00307d;
+}
+
+/* Footer */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    margin-top: 50px; 
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    font-size: 16px;
+}
+
+[class^="col-"]{
+    padding: 8px;
+}
+
+.col-6{
+    width: 50%;
+}
+
+.col-12{
+    width: 100%;
+}
+.is-invalid {
+    border-color: red !important;
+    background-color: #ffe6e6;
+}
+.text-danger {
+    color: red;
+}

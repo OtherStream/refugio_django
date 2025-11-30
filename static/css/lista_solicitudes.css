@@ -1,0 +1,232 @@
+/* --- 1. ESTILOS GENERALES (Coherentes con el resto del sitio) --- */
+body {
+    font-family: 'Segoe UI', sans-serif; /* Misma fuente que formularios */
+    background-color: #f3f4f6; /* Mismo fondo gris suave */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* --- 2. BARRA DE NAVEGACIÓN (Estándar) --- */
+.navbar-custom {
+    background-color: #004aad;
+    padding: 10px 20px;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white !important; 
+    font-weight: 500;
+    gap: 15px;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffdd00 !important;
+}
+
+.navbar-custom a.active {
+    color: yellow !important;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #004aad; 
+    border: none;
+}
+
+.navbar-custom .dropdown-item {
+    color: white !important;
+    font-weight: 500;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #005fd3;
+    color: #ffdd00 !important;
+}
+
+.container-fluid {
+    gap: 10px;
+}
+
+.container-fluid h3 {
+    color: white;
+    font-weight: bold;
+}
+
+.container-fluid img {
+    height: 40px; 
+    width: auto;
+    object-fit: contain;
+}
+
+/* --- 3. ESTILOS DE LA TABLA (Específicos de esta página) --- */
+.container {
+    max-width: 1200px;
+    margin: 3rem auto; /* Un poco más de espacio arriba */
+    padding: 0 15px;
+    background-color: white; /* Fondo blanco para la tabla */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+    padding-bottom: 2rem;
+}
+
+h2 {
+    color: #004aad;
+    font-weight: bold;
+    padding-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #004aad;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    border: none;
+}
+
+.table th, .table td {
+    padding: 15px 10px;
+    vertical-align: middle;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Anchos de columnas (Suma 100% para las 6 columnas) */
+.table th:nth-child(1), .table td:nth-child(1) { width: 8%;  } /* Num */
+.table th:nth-child(2), .table td:nth-child(2) { width: 15%; } /* Usuario */
+.table th:nth-child(3), .table td:nth-child(3) { width: 17%; } /* Animal */
+.table th:nth-child(4), .table td:nth-child(4) { width: 15%; } /* Estado */
+.table th:nth-child(5), .table td:nth-child(5) { width: 20%; } /* Documentos */
+.table th:nth-child(6), .table td:nth-child(6) { width: 25%; } /* Acciones */
+
+/* Botones de Acción */
+.accept-btn, .reject-btn {
+    width: 100%;
+    max-width: 90px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+    border-radius: 6px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    transition: all 0.2s;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+.accept-btn:hover { background-color: #218838; }
+
+.reject-btn {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+}
+.reject-btn:hover { background-color: #c82333; }
+
+/* Badges y Botones de Documentos */
+.btn-outline-secondary, .btn-outline-info {
+    width: 100%;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.badge {
+    padding: 8px;
+    font-weight: normal;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.modal-header {
+    background-color: #004aad;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.modal-body {
+    font-size: 16px;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* --- 4. FOOTER (Estándar) --- */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    font-size: 16px;
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+    /* En pantallas medianas, permitimos scroll horizontal */
+    .table th, .table td {
+        font-size: 14px;
+        padding: 10px 5px;
+    }
+    .container {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+    .table-responsive {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+}

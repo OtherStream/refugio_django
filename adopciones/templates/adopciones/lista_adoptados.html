@@ -1,0 +1,11 @@
+{% block content %}
+<h1>Animales Adoptados</h1>
+<div>
+    <div>
+      <h3>{{ animal.nombre }}</h3>
+      <p>Edad: {{ animal.edad }}</p>
+      <p>Descripción: {{ animal.descripcion }}</p>
+      <a href="{% url 'adoptar' animal.id %}">Ver detalles</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% include "core/header.html" %}
+{% block content %}
+<div class="container">
+    <h2>Adoptar a {{ animal.nombre }}</h2>
+    
+    <div class="animal-info">
+        {% if animal.imagen %}
+            <img src="{{ animal.imagen.url }}" alt="{{ animal.nombre }}" style="max-width:300px;">
+        {% endif %}
+        <p><strong>Edad:</strong> {{ animal.edad }} años</p>
+        <p><strong>Raza:</strong> {{ animal.raza }}</p>
+        <p><strong>Descripción:</strong> {{ animal.descripcion }}</p>
+    </div>
+
+    <hr>
+
+    <h3>Formulario de adopción</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Adoptar</button>
+    </form>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
+{% include "core/footer.html" %}
