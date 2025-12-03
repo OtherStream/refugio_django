@@ -13,14 +13,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- SEGURIDAD ---
 
-# 1. Clave Secreta: La toma de las variables de entorno de Render
+# Clave Secreta: La toma de las variables de entorno de Render
 # Si no la encuentra, usa una por defecto (solo para evitar errores, pero debes configurarla en Render)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-key-change-me-in-production')
 
-# 2. Debug: Falso para producción
+# Debug: Falso para producción
 DEBUG = False
 
-# 3. Hosts: Permitimos el dominio de Render
+# Hosts: Permitimos el dominio de Render
 ALLOWED_HOSTS = ['*']
 
 
@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Tus apps
     'core',
     'usuarios',
     'animales',
@@ -41,20 +40,21 @@ INSTALLED_APPS = [
     'productos',
     'servicios',
     'avisos',
-    # Librerías de terceros
     'rest_framework',
     'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # <--- VITAL: Para servir CSS en Render
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'refugio_django.urls'
@@ -132,3 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 AUTH_USER_MODEL = 'usuarios.Usuario'
+
+# --- SEGURIDAD CORS ---
+# Permite que todos usen la API 
+CORS_ALLOW_ALL_ORIGINS = True
