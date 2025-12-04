@@ -1,8 +1,3 @@
-"""
-Django settings for refugio_django project.
-Configuración optimizada para despliegue en Render con PostgreSQL.
-"""
-
 import os
 import dj_database_url
 from pathlib import Path
@@ -11,16 +6,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# --- SEGURIDAD ---
+# --- SEGURIDAD RENDER ---
 
-# Clave Secreta: La toma de las variables de entorno de Render
-# Si no la encuentra, usa una por defecto (solo para evitar errores, pero debes configurarla en Render)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-key-change-me-in-production')
-
-# Debug: Falso para producción
 DEBUG = False
-
-# Hosts: Permitimos el dominio de Render
 ALLOWED_HOSTS = ['*']
 
 
@@ -50,18 +39,18 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware', #csrf
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #cors
 ]
 
 ROOT_URLCONF = 'refugio_django.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates', #xss
         'DIRS': [os.path.join(BASE_DIR, 'templates')], 
         'APP_DIRS': True,  
         'OPTIONS': {
@@ -80,17 +69,12 @@ WSGI_APPLICATION = 'refugio_django.wsgi.application'
 
 
 # --- BASE DE DATOS (PostgreSQL en Render) ---
-
-# Render inyecta automáticamente la variable DATABASE_URL.
-# dj_database_url la lee y configura la conexión por ti.
 DATABASES = {
     'default': dj_database_url.config(
         conn_max_age=600,
         ssl_require=True  # PostgreSQL en Render requiere SSL
     )
 }
-
-
 # --- VALIDACIÓN DE CONTRASEÑAS ---
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -109,7 +93,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# --- ARCHIVOS ESTÁTICOS Y MEDIA (WHITENOISE) ---
+# --- ARCHIVOS ESTÁTICOS Y MEDIA  ---
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
